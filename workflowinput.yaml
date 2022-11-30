@@ -1,6 +1,6 @@
-workflowname: template_nextflow_workflow
-workflowdescription: template_nextflow_workflow
-workflowlongdescription: This is a template nextflow workflow for GNPS2
+workflowname: structural_similarity_workflow
+workflowdescription: structural_similarity_workflow
+workflowlongdescription: This is a workflow to calculate structural similarity
 workflowversion: "0.1"
 workflowfile: nf_workflow.nf
 workflowautohide: false
@@ -10,12 +10,12 @@ parameterlist:
     - displayname: File Selection
       paramtype: section
 
-    - displayname: Input Data Folder
+    - displayname: Input structures file
       paramtype: fileselector
-      nf_paramname: input_spectra_folder
+      nf_paramname: input_structures
       formplaceholder: Enter the path to data
       formvalue: ""
-      targettaskfolder: input_spectra
+      targettaskfolder: input_structures
       optional: false
-      selectsinglefile: false
+      selectsinglefile: true
       folderunroll: true
