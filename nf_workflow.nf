@@ -1,25 +1,32 @@
 #!/usr/bin/env nextflow
 
-params.input = "README.md"
+params.input_structures = 'data/BILELIB19_spectralID_and_SMILES.tsv'
 
-// Workflow Boiler Plate
-params.OMETALINKING_YAML = "flow_filelinking.yaml"
-params.OMETAPARAM_YAML = "job_parameters.yaml"
-
+params.publishdir = "nf_output"
 TOOL_FOLDER = "$baseDir/bin"
 
-process processData {
-    publishDir "./nf_output", mode: 'copy'
+process calculate {
+    //errorStrategy 'ignore'
+    //time '4h'
+    //memory { 12.GB }
 
     conda "$TOOL_FOLDER/conda_env.yml"
 
+    publishDir "$params.publishdir", mode: 'copy'
+    
     input:
-    file input from Channel.fromPath(params.input)
+    file(smiles_file) from Channel.fromPath(params.input_structures)
+    each x from Channel.from( 0..5000 )
 
     output:
-    file 'output.tsv' into records_ch
+    file "*output.json" optional true into _query_results_ch
 
     """
-    python $TOOL_FOLDER/script.py $input output.tsv
+    echo $x
+    python $TOOL_FOLDER/run_comparisons.py \
+        "$smiles_file" \
+        "${x}_output.json" \
+        --node_current ${x} \
+        --node_total 5001
     """
 }

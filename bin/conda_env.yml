@@ -1,9 +1,8 @@
 channels:
   - conda-forge
   - defaults
+  - rdkit
 dependencies:
   - python=3.8.8
+  - rdkit
   - pandas
-  - pip:
-    - xmltodict
-    - requests
