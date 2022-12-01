@@ -16,7 +16,7 @@ process calculate {
     
     input:
     file(smiles_file) from Channel.fromPath(params.input_structures)
-    each x from Channel.from( 0..5000 )
+    each x from Channel.from( 0..200 )
 
     output:
     file "*output.json" optional true into _query_results_ch
@@ -27,6 +27,6 @@ process calculate {
         "$smiles_file" \
         "${x}_output.json" \
         --node_current ${x} \
-        --node_total 5001
+        --node_total 201
     """
 }
